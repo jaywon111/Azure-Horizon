@@ -22,7 +22,14 @@ export default function AccordionGallery({
           className="relative overflow-hidden rounded-2xl cursor-pointer min-h-[240px]"
           style={{ backgroundImage: `url(${item.image})`, backgroundSize: "cover", backgroundPosition: "center" }}
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent" />
+          <div
+  className="absolute inset-0"
+  style={{
+    background: light
+      ? "linear-gradient(to top, rgba(14,14,16,0.85) 0%, rgba(14,14,16,0.15) 50%, transparent 100%)"
+      : "linear-gradient(to top, rgba(14,14,16,0.9) 0%, rgba(14,14,16,0.2) 50%, transparent 100%)",
+  }}
+/>
           <motion.div
             animate={{ opacity: active === i ? 1 : 0, y: active === i ? 0 : 20 }}
             transition={{ duration: 0.5, delay: active === i ? 0.2 : 0 }}
