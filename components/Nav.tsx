@@ -82,7 +82,7 @@ export default function Nav() {
 
           {/* Reserve CTA */}
           <Link
-            href="/book/thank-you"
+            href="/book"
             className="pill pill-primary hidden md:inline-flex text-[0.75rem] px-4 py-2"
           >
             Reserve
@@ -160,6 +160,21 @@ export default function Nav() {
                     <p className="body">100 Ocean Drive, Malibu, CA 90265</p>
                   </div>
                 </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.7, duration: 0.6 }}
+                className="mt-10"
+              >
+                <Link
+                  href="/book"
+                  onClick={() => setMenuOpen(false)}
+                  className="pill pill-primary"
+                >
+                  Reserve a Suite
+                </Link>
               </motion.div>
             </div>
           </motion.div>
