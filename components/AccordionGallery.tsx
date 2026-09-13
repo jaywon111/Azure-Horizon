@@ -2,7 +2,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-export default function AccordionGallery({ items }: { items: { name: string; desc: string; image: string }[] }) {
+export default function AccordionGallery({
+  items,
+  light = false,
+}: {
+  items: { name: string; desc: string; image: string }[];
+  light?: boolean;
+}) {
   const [active, setActive] = useState(0);
   return (
     <div className="flex flex-col md:flex-row gap-3 h-[600px]">
