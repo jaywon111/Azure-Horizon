@@ -41,19 +41,46 @@ float snoise(vec2 v){
 void main() {
   vec2 uv = vUv;
   vec2 p = (gl_FragCoord.xy * 2.0 - uResolution) / min(uResolution.x, uResolution.y);
-  float n1 = snoise(p * 1.2 + vec2(uTime * 0.04, uTime * 0.02));
-  float n2 = snoise(p * 2.4 + vec2(uTime * 0.07, -uTime * 0.04));
-  float n3 = snoise(p * 4.0 + vec2(-uTime * 0.09, uTime * 0.06));
-  float pattern = (n1 * 0.55 + n2 * 0.3 + n3 * 0.15) * 0.5 + 0.5;
-  vec3 deep = vec3(0.015, 0.025, 0.06);
-  vec3 navy = vec3(0.043, 0.075, 0.169);
-  vec3 gold = vec3(0.788, 0.663, 0.431);
-  vec3 color = mix(deep, navy, pattern);
-  color = mix(color, gold, smoothstep(0.72, 1.0, pattern) * 0.35);
+  p *= 0.75;
+
+  // Faster flow
+  float t = uTime * 0.09;
+
+  // Layered noise for richer motion
+  float n1 = snoise(p * 1.1 + vec2(t * 0.8, t * 0.4));
+  float n2 = snoise(p * 2.3 + vec2(-t * 1.2, t * 0.6));
+  float n3 = snoise(p * 4.5 + vec2(t * 1.6, -t * 1.0));
+  float n4 = snoise(p * 0.6 + vec2(-t * 0.5, -t * 0.3));
+
+  float pattern = (n1 * 0.4 + n2 * 0.3 + n3 * 0.15 + n4 * 0.15) * 0.5 + 0.5;
+  pattern = pow(pattern, 0.9);
+
+  // Warmer, richer palette — brighter than before
+  vec3 deepNavy = vec3(0.04, 0.06, 0.12);
+  vec3 ocean    = vec3(0.08, 0.14, 0.28);
+  vec3 warmGold = vec3(0.85, 0.68, 0.42);
+  vec3 amber    = vec3(0.95, 0.72, 0.42);
+
+  vec3 color = mix(deepNavy, ocean, pattern);
+
+  // Warm highlights — more aggressive
+  float highlight = smoothstep(0.55, 1.0, pattern);
+  color = mix(color, warmGold, highlight * 0.7);
+  color = mix(color, amber, smoothstep(0.85, 1.0, pattern) * 0.5);
+
+  // Radial warm glow — center-right bias
+  vec2 glowCenter = vec2(0.3, -0.2);
+  float glow = 1.0 - length((p - glowCenter) * 0.7);
+  color += warmGold * smoothstep(0.0, 1.0, glow) * 0.15;
+
+  // Vignette — softer than before
+  float vig = 1.0 - length(p * 0.5);
+  color *= mix(0.85, 1.0, smoothstep(0.0, 1.0, vig));
+
+  // Grain
   float grain = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233))) * 43758.5453);
-  color += (grain - 0.5) * 0.02;
-  float vig = 1.0 - length(p * 0.55);
-  color *= smoothstep(0.0, 1.0, vig);
+  color += (grain - 0.5) * 0.025;
+
   gl_FragColor = vec4(color, 1.0);
 }
 `;
@@ -67,17 +94,27 @@ export default function ThreeHero() {
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false });
+    const renderer = new THREE.WebGLRenderer({
+      antialias: false,
+      alpha: false,
+      powerPreference: "high-performance",
+    });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(container.clientWidth, container.clientHeight);
     container.appendChild(renderer.domElement);
 
     const uniforms = {
       uTime: { value: 0 },
-      uResolution: { value: new THREE.Vector2(container.clientWidth, container.clientHeight) },
+      uResolution: {
+        value: new THREE.Vector2(container.clientWidth, container.clientHeight),
+      },
     };
 
-    const material = new THREE.ShaderMaterial({ vertexShader, fragmentShader, uniforms });
+    const material = new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms,
+    });
     const geometry = new THREE.PlaneGeometry(2, 2);
     scene.add(new THREE.Mesh(geometry, material));
 
@@ -104,9 +141,18 @@ export default function ThreeHero() {
       geometry.dispose();
       material.dispose();
       renderer.dispose();
-      if (renderer.domElement.parentNode === container) container.removeChild(renderer.domElement);
+      if (renderer.domElement.parentNode === container) {
+        container.removeChild(renderer.domElement);
+      }
     };
   }, []);
 
-  return <div ref={ref} className="absolute inset-0 -z-10" aria-hidden />;
+  return (
+    <div
+      ref={ref}
+      className="absolute inset-0 -z-10"
+      style={{ width: "100%", height: "100%" }}
+      aria-hidden
+    />
+  );
 }
