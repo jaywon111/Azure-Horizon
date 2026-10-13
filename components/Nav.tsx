@@ -30,6 +30,7 @@ const menuLinks = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [currency, setCurrency] = useState("USD");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -39,19 +40,37 @@ export default function Nav() {
   }, []);
 
   useEffect(() => {
+    const saved = localStorage.getItem("azure_currency");
+    if (saved) setCurrency(saved);
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail) setCurrency(detail);
+    };
+    window.addEventListener("azure:currency", handler);
+    return () => window.removeEventListener("azure:currency", handler);
+  }, []);
+
+  useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [menuOpen]);
+
+  const setCurrencyAndClose = (code: string) => {
+    localStorage.setItem("azure_currency", code);
+    window.dispatchEvent(new CustomEvent("azure:currency", { detail: code }));
+    setCurrency(code);
+  };
 
   return (
     <>
-      {/* Floating pill nav */}
       <div className="fixed top-0 left-0 right-0 z-[100] flex justify-center pointer-events-none px-4 pt-5 md:pt-6">
         <motion.nav
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-auto flex items-center gap-1 rounded-full border border-white/10 backdrop-blur-xl transition-colors duration-500"
+          className="pointer-events-auto flex items-center gap-0.5 rounded-full border border-white/10 backdrop-blur-xl transition-colors duration-500"
           style={{
             background: scrolled ? "rgba(14,14,16,0.82)" : "rgba(14,14,16,0.28)",
             padding: "0.375rem",
@@ -68,8 +87,11 @@ export default function Nav() {
             Azure Horizon
           </Link>
 
-          {/* Desktop links — properly spaced */}
-          <div className="hidden lg:flex items-center gap-0.5 mr-1">
+          {/* Weather chip — always visible */}
+          <WeatherWidget />
+
+          {/* Desktop links */}
+          <div className="hidden lg:flex items-center gap-0.5 mx-1">
             {links.map((l) => (
               <Link
                 key={l.href}
@@ -82,14 +104,13 @@ export default function Nav() {
             ))}
           </div>
 
-          {/* Weather + Currency */}
-          <WeatherWidget />
+          {/* Currency — desktop only */}
           <CurrencySelector />
 
-          {/* Reserve CTA */}
+          {/* Reserve */}
           <Link
             href="/book"
-            className="pill pill-primary hidden md:inline-flex text-[0.75rem] px-4 py-2"
+            className="pill pill-primary hidden sm:inline-flex text-[0.75rem] px-4 py-2"
           >
             Reserve
           </Link>
@@ -98,7 +119,7 @@ export default function Nav() {
           <button
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Menu"
-            className="ml-1 p-2.5 rounded-full transition-colors duration-300 hover:bg-white/6 flex items-center justify-center"
+            className="ml-0.5 p-2.5 rounded-full transition-colors duration-300 hover:bg-white/6 flex items-center justify-center"
             style={{ minWidth: "2.25rem", minHeight: "2.25rem" }}
           >
             <span className="grid grid-cols-3 gap-[3px]">
@@ -122,7 +143,7 @@ export default function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[99] flex flex-col"
+            className="fixed inset-0 z-[99] flex flex-col overflow-y-auto"
             style={{ background: "var(--color-ink)" }}
           >
             <div className="container flex-1 flex flex-col justify-center pt-32 pb-20">
@@ -150,13 +171,47 @@ export default function Nav() {
                 ))}
               </nav>
 
+              {/* Mobile-only: currency */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
-                className="mt-16 pt-8 hairline"
+                transition={{ delay: 0.55, duration: 0.6 }}
+                className="mt-12 md:hidden"
               >
-                <div className="grid md:grid-cols-2 gap-8 mt-8">
+                <p className="eyebrow mb-4">Currency</p>
+                <div className="flex flex-wrap gap-2">
+                  {["USD", "EUR", "GBP", "JPY", "AUD", "CAD"].map((code) => (
+                    <button
+                      key={code}
+                      onClick={() => setCurrencyAndClose(code)}
+                      className="px-3.5 py-2 text-[0.7rem] tracking-wider uppercase rounded-full transition-colors duration-300"
+                      style={{
+                        color:
+                          code === currency
+                            ? "var(--color-ink)"
+                            : "rgba(245,241,232,0.7)",
+                        background:
+                          code === currency ? "var(--color-gold)" : "transparent",
+                        border:
+                          code === currency
+                            ? "1px solid var(--color-gold)"
+                            : "1px solid rgba(245,241,232,0.15)",
+                      }}
+                    >
+                      {code}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.65, duration: 0.6 }}
+                className="mt-12 pt-8"
+                style={{ borderTop: "1px solid rgba(245,241,232,0.08)" }}
+              >
+                <div className="grid md:grid-cols-2 gap-8">
                   <div>
                     <p className="eyebrow mb-3">Reservations</p>
                     <p className="body">+1 555 0199 · stay@azurehorizon.com</p>
@@ -171,7 +226,7 @@ export default function Nav() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.7, duration: 0.6 }}
+                transition={{ delay: 0.75, duration: 0.6 }}
                 className="mt-10"
               >
                 <Link
