@@ -39,7 +39,7 @@ export default function WeatherWidget() {
 
   return (
     <div
-      className="flex items-center gap-1.5 px-2.5 py-2 text-[0.7rem] tracking-wider uppercase whitespace-nowrap"
+      className="flex items-center gap-1.5 pl-3 pr-2.5 py-2 text-[0.7rem] tracking-wider uppercase whitespace-nowrap"
       style={{ color: "rgba(245,241,232,0.55)" }}
     >
       <span className="hidden lg:inline">Malibu</span>
