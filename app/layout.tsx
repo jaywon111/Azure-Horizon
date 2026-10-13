@@ -4,14 +4,20 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import GhostCursor from "@/components/GhostCursor";
 import SmoothScroll from "@/components/SmoothScroll";
+import Preloader from "@/components/Preloader";
+import ScrollProgress from "@/components/ScrollProgress";
+import CookieConsent from "@/components/CookieConsent";
 
 export const metadata: Metadata = {
   title: "The Azure Horizon | Coastal Boutique Hotel, Malibu",
-  description: "A quiet-luxury coastal retreat on the Pacific. Twelve suites, a subterranean spa, and a chef's table that changes with the tide.",
+  description:
+    "A quiet-luxury coastal retreat on the Pacific. Twelve suites, a subterranean spa, and a chef's table that changes with the tide.",
   openGraph: {
     title: "The Azure Horizon",
     description: "A quiet-luxury coastal retreat on the Pacific.",
-    images: ["https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&h=630&q=80"],
+    images: [
+      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&h=630&q=80",
+    ],
     type: "website",
   },
 };
@@ -48,12 +54,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        <Preloader />
+        <ScrollProgress />
         <GhostCursor />
         <SmoothScroll>
           <Nav />
           <main>{children}</main>
           <Footer />
         </SmoothScroll>
+        <CookieConsent />
       </body>
     </html>
   );
