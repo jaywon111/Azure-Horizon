@@ -1,27 +1,32 @@
-import { rooms } from "@/lib/data";
+"use client";
+import { useState } from "react";
+import { useParams } from "next/navigation";
 import { notFound } from "next/navigation";
+import { rooms } from "@/lib/data";
 import { Reveal } from "@/components/primitives";
-import MagneticButton from "@/components/MagneticButton";
+import RoomGallery from "@/components/RoomGallery";
+import StickyBooking from "@/components/StickyBooking";
+import AmenityIcons from "@/components/AmenityIcons";
+import ScrollSequence from "@/components/ScrollSequence";
+import FloorPlan from "@/components/FloorPlan";
+import Upsells from "@/components/Upsells";
+import SimilarSuites from "@/components/SimilarSuites";
+import RoomReviews from "@/components/RoomReviews";
 
-export function generateStaticParams() {
-  return rooms.map((r) => ({ slug: r.slug }));
-}
-
-export default async function RoomPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const room = rooms.find((r) => r.slug === slug);
+export default function RoomPage() {
+  const params = useParams<{ slug: string }>();
+  const room = rooms.find((r) => r.slug === params.slug);
   if (!room) notFound();
+
+  const [upsellTotal, setUpsellTotal] = useState(0);
 
   return (
     <>
-      <section className="section-lg section-ink page-top">
-        <div className="container">
+      {/* HERO */}
+      <section className="section-lg section-ink" style={{ paddingTop: "10rem", paddingBottom: "2rem" }}>
+        <div className="container-wide">
           <Reveal>
-            <p className="eyebrow mb-6">Suite · {room.view}</p>
+            <p className="eyebrow mb-5">Suite · {room.view}</p>
           </Reveal>
           <Reveal delay={0.05}>
             <h1 className="display-1 max-w-4xl">{room.name}</h1>
@@ -29,91 +34,133 @@ export default async function RoomPage({
         </div>
       </section>
 
-      <section className="section-lg section-ink" style={{ paddingTop: 0 }}>
+      {/* GALLERY */}
+      <section className="section-ink" style={{ paddingBottom: "4rem" }}>
         <div className="container-wide">
-          <Reveal delay={0.15}>
-            <img
-              src={room.image}
-              alt={room.name}
-              className="w-full rounded-3xl"
-              style={{ aspectRatio: "16 / 9", objectFit: "cover" }}
-            />
+          <Reveal delay={0.1}>
+            <RoomGallery images={room.gallery} roomName={room.name} />
           </Reveal>
         </div>
       </section>
 
-      <section className="section-lg section-ink">
+      {/* DESCRIPTION + STICKY BOOKING */}
+      <section className="section-ink" style={{ paddingBottom: "6rem" }}>
         <div className="container">
-          <div className="grid md:grid-cols-12 gap-12 md:gap-16">
-            <div className="md:col-span-7">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <div className="lg:col-span-7 xl:col-span-8">
               <Reveal>
-                <p className="eyebrow mb-5">The Suite</p>
+                <p className="eyebrow mb-6">The Suite</p>
               </Reveal>
               <Reveal delay={0.05}>
                 <p
-                  className="body-lg"
+                  className="body-lg mb-10"
                   style={{ fontSize: "1.35rem", color: "var(--color-cream)", lineHeight: 1.5 }}
                 >
-                  {room.desc}
+                  {room.longDesc}
                 </p>
+              </Reveal>
+
+              {/* Amenities */}
+              <Reveal delay={0.1}>
+                <div
+                  className="pt-10"
+                  style={{ borderTop: "1px solid rgba(245,241,232,0.08)" }}
+                >
+                  <p className="eyebrow mb-8">In the Suite</p>
+                  <AmenityIcons amenities={room.amenitiesDetailed} />
+                </div>
               </Reveal>
             </div>
 
-            <div className="md:col-span-5">
-              <Reveal delay={0.1}>
-                <div
-                  className="p-8 rounded-2xl"
-                  style={{ background: "var(--color-carbon)", border: "1px solid rgba(245,241,232,0.08)" }}
-                >
-                  <div className="space-y-4">
-                    <div className="flex justify-between">
-                      <span className="body" style={{ fontSize: "0.85rem" }}>Size</span>
-                      <span className="text-cream">{room.size}</span>
-                    </div>
-                    <div className="hairline" />
-                    <div className="flex justify-between">
-                      <span className="body" style={{ fontSize: "0.85rem" }}>Sleeps</span>
-                      <span className="text-cream">{room.occupancy}</span>
-                    </div>
-                    <div className="hairline" />
-                    <div className="flex justify-between">
-                      <span className="body" style={{ fontSize: "0.85rem" }}>View</span>
-                      <span className="text-cream">{room.view}</span>
-                    </div>
-                    <div className="hairline" />
-                    <div className="flex justify-between">
-                      <span className="body" style={{ fontSize: "0.85rem" }}>From</span>
-                      <span style={{ color: "var(--color-gold)" }}>${room.price} / night</span>
-                    </div>
-                  </div>
-
-                  <div className="pt-6">
-                    <MagneticButton href="/book" primary>Reserve</MagneticButton>
-                  </div>
-                </div>
+            {/* Sticky booking column */}
+            <div className="lg:col-span-5 xl:col-span-4">
+              <Reveal delay={0.15}>
+                <StickyBooking room={room} />
               </Reveal>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section-lg section-cream">
+      {/* SCROLL SEQUENCE */}
+      <ScrollSequence frames={room.gallery} />
+
+      {/* FLOOR PLAN */}
+      <section className="section-lg section-ink">
         <div className="container">
           <Reveal>
-            <p className="eyebrow mb-6">In the Room</p>
+            <FloorPlan room={room} />
           </Reveal>
-          <div className="grid-3">
-            {room.amenities.map((a, i) => (
-              <Reveal key={i} delay={i * 0.04}>
-                <div
-                  className="py-5 heading"
-                  style={{ fontSize: "1.15rem", borderTop: "1px solid rgba(26,26,29,0.15)" }}
-                >
-                  {a}
-                </div>
-              </Reveal>
-            ))}
+        </div>
+      </section>
+
+      {/* UPSELLS */}
+      <section className="section-lg section-cream">
+        <div className="container">
+          <div className="section-head">
+            <Reveal>
+              <p className="eyebrow">Enhance your stay</p>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <h2 className="display-2">Add something to your stay.</h2>
+            </Reveal>
           </div>
+
+          <Reveal delay={0.1}>
+            <Upsells onChange={(_ids, total) => setUpsellTotal(total)} />
+          </Reveal>
+
+          {upsellTotal > 0 && (
+            <Reveal delay={0.15}>
+              <div
+                className="mt-10 p-6 rounded-2xl flex justify-between items-center flex-wrap gap-4"
+                style={{ background: "var(--color-carbon)", border: "1px solid rgba(245,241,232,0.08)" }}
+              >
+                <span className="body" style={{ color: "var(--color-cream)" }}>
+                  Add-ons selected
+                </span>
+                <span className="heading" style={{ fontSize: "1.25rem", color: "var(--color-gold)" }}>
+                  + ${upsellTotal}
+                </span>
+              </div>
+            </Reveal>
+          )}
+        </div>
+      </section>
+
+      {/* REVIEWS */}
+      <section className="section-lg section-ink">
+        <div className="container">
+          <div className="section-head">
+            <Reveal>
+              <p className="eyebrow">Guests of this suite</p>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <h2 className="display-2">What they said.</h2>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.1}>
+            <RoomReviews reviews={room.reviews} />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* SIMILAR SUITES */}
+      <section className="section-lg section-cream">
+        <div className="container">
+          <div className="section-head">
+            <Reveal>
+              <p className="eyebrow">Also consider</p>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <h2 className="display-2">Similar suites.</h2>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.1}>
+            <SimilarSuites currentSlug={room.slug} />
+          </Reveal>
         </div>
       </section>
     </>
