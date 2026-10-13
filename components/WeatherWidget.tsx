@@ -39,12 +39,14 @@ export default function WeatherWidget() {
 
   return (
     <div
-      className="hidden xl:flex items-center gap-2 px-3 py-2 text-[0.7rem] tracking-wider uppercase whitespace-nowrap"
+      className="flex items-center gap-1.5 px-2.5 py-2 text-[0.7rem] tracking-wider uppercase whitespace-nowrap"
       style={{ color: "rgba(245,241,232,0.55)" }}
     >
-      <span>Malibu</span>
-      <span style={{ color: "var(--color-gold)" }}>{weather.temp}°</span>
-      <span>{codeMap[weather.code] || ""}</span>
+      <span className="hidden lg:inline">Malibu</span>
+      <span style={{ color: "var(--color-gold)", fontWeight: 500 }}>
+        {weather.temp}°
+      </span>
+      <span className="hidden lg:inline">{codeMap[weather.code] || ""}</span>
     </div>
   );
 }
