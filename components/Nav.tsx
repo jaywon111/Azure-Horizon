@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import WeatherWidget from "@/components/WeatherWidget";
+import CurrencySelector from "@/components/CurrencySelector";
 
 const links = [
   { href: "/rooms",       label: "Suites" },
@@ -79,6 +81,10 @@ export default function Nav() {
               </Link>
             ))}
           </div>
+
+          {/* Weather + Currency */}
+          <WeatherWidget />
+          <CurrencySelector />
 
           {/* Reserve CTA */}
           <Link
