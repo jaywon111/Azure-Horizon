@@ -42,8 +42,9 @@ export default function Footer() {
       }}
     >
       <div className="container-wide py-20 md:py-24">
-        <div className="grid md:grid-cols-4 gap-12 md:gap-8">
-          <div className="md:col-span-2">
+        <div className="grid md:grid-cols-12 gap-12 md:gap-8">
+          {/* Brand column */}
+          <div className="md:col-span-4">
             <p className="eyebrow mb-6">The Azure Horizon</p>
             <p className="body-lg mb-8" style={{ maxWidth: "28rem" }}>
               A quiet-luxury coastal retreat on the Pacific. Twelve suites, a
@@ -78,7 +79,8 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
+          {/* Stay */}
+          <div className="md:col-span-2">
             <p className="eyebrow mb-6">Stay</p>
             <ul className="space-y-3">
               {[
@@ -99,15 +101,58 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
+          {/* House */}
+          <div className="md:col-span-2">
             <p className="eyebrow mb-6">House</p>
             <ul className="space-y-3">
               {[
                 { href: "/about", label: "Our Story" },
                 { href: "/dining", label: "Dining" },
                 { href: "/spa", label: "Spa" },
+                { href: "/journal", label: "Journal" },
                 { href: "/contact", label: "Contact" },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="body transition-colors duration-300 hover:text-cream"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div className="md:col-span-2">
+            <p className="eyebrow mb-6">Company</p>
+            <ul className="space-y-3">
+              {[
+                { href: "/press", label: "Press" },
+                { href: "/careers", label: "Careers" },
+                { href: "/accessibility", label: "Accessibility" },
+                { href: "/sitemap", label: "Sitemap" },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="body transition-colors duration-300 hover:text-cream"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div className="md:col-span-2">
+            <p className="eyebrow mb-6">Legal</p>
+            <ul className="space-y-3">
+              {[
                 { href: "/privacy", label: "Privacy" },
+                { href: "/sitemap", label: "All pages" },
               ].map((l) => (
                 <li key={l.href}>
                   <Link
