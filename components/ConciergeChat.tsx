@@ -321,7 +321,7 @@ export default function ConciergeChat() {
         transition={{ delay: 3, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         onClick={() => setOpen((v) => !v)}
         aria-label="Open concierge chat"
-        className="fixed z-[180] flex items-center justify-center rounded-full"
+        className="concierge-bubble fixed z-[180] flex items-center justify-center rounded-full"
         style={{
           right: "1.25rem",
           bottom: "5.5rem",
@@ -381,7 +381,7 @@ export default function ConciergeChat() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed z-[180] flex flex-col"
+            className="concierge-panel fixed z-[180] flex flex-col"
             style={{
               right: "1.25rem",
               bottom: "8.75rem",
