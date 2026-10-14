@@ -436,3 +436,168 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @media (min-width: 768px) {
   .page-top { padding-top: 10rem; }
 }
+
+/* ================================================
+   POLISH
+   ================================================ */
+
+/* Prevent any accidental horizontal scroll */
+html, body {
+  overflow-x: clip;
+  max-width: 100vw;
+}
+
+/* Better image defaults */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* -------------------------------
+   Form inputs (global, so we can
+   delete the <style jsx> block)
+   ------------------------------- */
+.form-input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: var(--color-carbon);
+  border: 1px solid rgba(245, 241, 232, 0.12);
+  border-radius: 12px;
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, background 0.3s ease;
+  outline: none;
+  appearance: none;
+}
+.form-input::placeholder { color: rgba(245, 241, 232, 0.3); }
+.form-input:focus {
+  border-color: var(--color-gold);
+  background: var(--color-graphite);
+}
+.section-cream .form-input {
+  background: var(--color-parch);
+  border-color: rgba(26, 26, 29, 0.15);
+  color: var(--color-inktext);
+}
+.section-cream .form-input::placeholder { color: rgba(26, 26, 29, 0.4); }
+.section-cream .form-input:focus {
+  border-color: var(--color-inktext);
+  background: var(--color-cream);
+}
+select.form-input {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23C9A96E' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.25rem center;
+  padding-right: 3rem;
+}
+input[type="date"].form-input::-webkit-calendar-picker-indicator {
+  filter: invert(0.7) sepia(1) saturate(3) hue-rotate(5deg);
+  cursor: pointer;
+}
+
+/* -------------------------------
+   Touch targets — WCAG 2.5.5
+   Every interactive element must
+   be at least 44×44 on mobile.
+   ------------------------------- */
+@media (pointer: coarse) {
+  a, button, [role="button"], summary {
+    min-height: 44px;
+  }
+  .pill {
+    min-height: 48px;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+  }
+  /* Sticky CTA needs extra room */
+  .sticky-cta {
+    min-height: 52px;
+  }
+}
+
+/* -------------------------------
+   Mobile floating UI positions
+   so nothing overlaps
+   ------------------------------- */
+@media (max-width: 767px) {
+  /* Sound toggle */
+  .sound-toggle {
+    bottom: 6.5rem !important;
+    left: 1rem !important;
+  }
+  /* Concierge bubble */
+  .concierge-bubble {
+    bottom: 6.5rem !important;
+    right: 1rem !important;
+  }
+  /* Chat panel — full-screen on mobile */
+  .concierge-panel {
+    right: 0.75rem !important;
+    left: 0.75rem !important;
+    bottom: 10rem !important;
+    width: auto !important;
+    height: calc(100vh - 14rem) !important;
+    max-height: 620px !important;
+  }
+}
+
+/* -------------------------------
+   Reduce-motion overrides
+   ------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee { animation: none !important; }
+  .shiny { animation: none !important; }
+}
+
+/* -------------------------------
+   Small phone fixes
+   ------------------------------- */
+@media (max-width: 380px) {
+  .display-1 {
+    font-size: 2.25rem !important;
+    letter-spacing: -0.03em !important;
+  }
+  .display-2 {
+    font-size: 1.65rem !important;
+  }
+  .pill {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+/* -------------------------------
+   Selection
+   ------------------------------- */
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+/* -------------------------------
+   Scrollbar
+   ------------------------------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 241, 232, 0.1);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 169, 110, 0.4);
+}
