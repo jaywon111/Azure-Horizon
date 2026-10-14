@@ -42,7 +42,7 @@ export default function SoundToggle() {
     <button
       onClick={() => setOn((v) => !v)}
       aria-label={on ? "Mute ambient sound" : "Play ambient sound"}
-      className="fixed z-[180] flex items-center justify-center rounded-full transition-colors duration-300 hover:bg-white/6"
+      className="sound-toggle fixed z-[180] flex items-center justify-center rounded-full transition-colors duration-300 hover:bg-white/6"
       style={{
         left: "1.25rem",
         bottom: "5.5rem",
