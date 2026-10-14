@@ -29,8 +29,8 @@ export default function BookPage() {
           </Reveal>
           <Reveal delay={0.15}>
             <p className="body-lg mt-8 max-w-2xl">
-              Send us your dates and we'll confirm within 15 minutes. No deposit is taken
-              online — everything is arranged by a member of our team.
+              Send us your dates and we'll confirm within 15 minutes. No deposit is
+              taken online — everything is arranged by a member of our team.
             </p>
           </Reveal>
         </div>
@@ -39,28 +39,25 @@ export default function BookPage() {
       <section className="section-lg section-cream">
         <div className="container">
           <div className="grid md:grid-cols-12 gap-12 md:gap-16">
-            {/* Form */}
             <div className="md:col-span-8">
               <form onSubmit={handleSubmit} className="space-y-8">
-                {/* Dates */}
                 <div>
                   <p className="eyebrow mb-6">1 · Your Stay</p>
                   <div className="grid md:grid-cols-2 gap-6">
                     <Field label="Arrival">
-                      <input type="date" required className="input" />
+                      <input type="date" required className="form-input" />
                     </Field>
                     <Field label="Departure">
-                      <input type="date" required className="input" />
+                      <input type="date" required className="form-input" />
                     </Field>
                   </div>
                 </div>
 
-                {/* Guests & Room */}
                 <div>
                   <p className="eyebrow mb-6">2 · Details</p>
                   <div className="grid md:grid-cols-2 gap-6">
                     <Field label="Guests">
-                      <select required className="input" defaultValue="">
+                      <select required className="form-input" defaultValue="">
                         <option value="" disabled>Select</option>
                         <option value="1">1 guest</option>
                         <option value="2">2 guests</option>
@@ -70,7 +67,7 @@ export default function BookPage() {
                       </select>
                     </Field>
                     <Field label="Suite">
-                      <select required className="input" defaultValue="">
+                      <select required className="form-input" defaultValue="">
                         <option value="" disabled>Select</option>
                         {rooms.map((r) => (
                           <option key={r.slug} value={r.slug}>
@@ -83,33 +80,31 @@ export default function BookPage() {
                   </div>
                 </div>
 
-                {/* Contact */}
                 <div>
                   <p className="eyebrow mb-6">3 · Your Details</p>
                   <div className="grid md:grid-cols-2 gap-6">
                     <Field label="Full name">
-                      <input type="text" required placeholder="Jane Doe" className="input" />
+                      <input type="text" required placeholder="Jane Doe" className="form-input" />
                     </Field>
                     <Field label="Email">
-                      <input type="email" required placeholder="jane@example.com" className="input" />
+                      <input type="email" required placeholder="jane@example.com" className="form-input" />
                     </Field>
                     <Field label="Phone">
-                      <input type="tel" required placeholder="+1 555 0100" className="input" />
+                      <input type="tel" required placeholder="+1 555 0100" className="form-input" />
                     </Field>
                     <Field label="Country">
-                      <input type="text" placeholder="United States" className="input" />
+                      <input type="text" placeholder="United States" className="form-input" />
                     </Field>
                   </div>
                 </div>
 
-                {/* Requests */}
                 <div>
                   <p className="eyebrow mb-6">4 · Special Requests</p>
                   <Field label="Anything we should know?">
                     <textarea
                       rows={5}
                       placeholder="Anniversary, dietary preferences, airport transfer…"
-                      className="input"
+                      className="form-input"
                       style={{ resize: "vertical", minHeight: "120px" }}
                     />
                   </Field>
@@ -131,11 +126,13 @@ export default function BookPage() {
               </form>
             </div>
 
-            {/* Side panel */}
             <div className="md:col-span-4">
               <div
-                className="p-8 rounded-2xl sticky md:top-32"
-                style={{ background: "var(--color-carbon)", border: "1px solid rgba(245,241,232,0.08)" }}
+                className="p-8 rounded-2xl lg:sticky lg:top-32"
+                style={{
+                  background: "var(--color-carbon)",
+                  border: "1px solid rgba(245,241,232,0.08)",
+                }}
               >
                 <p className="eyebrow mb-6">What happens next</p>
                 <ul className="space-y-5">
@@ -172,48 +169,6 @@ export default function BookPage() {
           </div>
         </div>
       </section>
-
-      {/* Local styles for form fields */}
-      <style jsx global>{`
-        .input {
-          width: 100%;
-          padding: 1rem 1.25rem;
-          background: var(--color-carbon);
-          border: 1px solid rgba(245,241,232,0.12);
-          border-radius: 12px;
-          color: var(--color-cream);
-          font-family: var(--font-body);
-          font-size: 0.95rem;
-          transition: border-color 0.3s ease, background 0.3s ease;
-          outline: none;
-        }
-        .input::placeholder { color: rgba(245,241,232,0.3); }
-        .input:focus {
-          border-color: var(--color-gold);
-          background: var(--color-graphite);
-        }
-        .section-cream .input {
-          background: var(--color-parch);
-          border-color: rgba(26,26,29,0.15);
-          color: var(--color-inktext);
-        }
-        .section-cream .input::placeholder { color: rgba(26,26,29,0.4); }
-        .section-cream .input:focus {
-          border-color: var(--color-inktext);
-          background: var(--color-cream);
-        }
-        select.input {
-          appearance: none;
-          background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23C9A96E' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
-          background-repeat: no-repeat;
-          background-position: right 1.25rem center;
-          padding-right: 3rem;
-        }
-        input[type="date"].input::-webkit-calendar-picker-indicator {
-          filter: invert(0.7) sepia(1) saturate(3) hue-rotate(5deg);
-          cursor: pointer;
-        }
-      `}</style>
     </>
   );
 }
