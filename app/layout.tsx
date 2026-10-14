@@ -7,6 +7,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Preloader from "@/components/Preloader";
 import ScrollProgress from "@/components/ScrollProgress";
 import CookieConsent from "@/components/CookieConsent";
+import ConciergeChat from "@/components/ConciergeChat";
 
 export const metadata: Metadata = {
   title: "The Azure Horizon | Coastal Boutique Hotel, Malibu",
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
         </SmoothScroll>
         <CookieConsent />
+        <ConciergeChat />
       </body>
     </html>
   );
