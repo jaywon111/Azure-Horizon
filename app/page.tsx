@@ -4,6 +4,10 @@ import { SplitText, BlurText, Reveal } from "@/components/primitives";
 import MagneticButton from "@/components/MagneticButton";
 import SpotlightCard from "@/components/SpotlightCard";
 import AccordionGallery from "@/components/AccordionGallery";
+import CountUp from "@/components/CountUp";
+import SplitFlap from "@/components/SplitFlap";
+import RoomComparison from "@/components/RoomComparison";
+import HomeGallery from "@/components/HomeGallery";
 import {
   rooms,
   dining,
@@ -12,16 +16,15 @@ import {
   reviews,
   faqs,
   local,
+  gallery,
 } from "@/lib/data";
 
 export default function Home() {
   return (
     <>
-      {/* ============ HERO ============ */}
+      {/* HERO */}
       <section className="relative min-h-screen flex flex-col justify-between overflow-hidden">
         <ThreeHero />
-
-        {/* Bottom-up gradient so text sits on visible light, not pure black */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -65,7 +68,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ THE HOUSE (cream) ============ */}
+      {/* THE HOUSE — cream, with counters */}
       <section className="section-lg section-cream">
         <div className="container">
           <div className="section-head">
@@ -74,35 +77,27 @@ export default function Home() {
             </Reveal>
             <Reveal delay={0.05}>
               <h2 className="display-2">
-                We built twelve rooms because twelve is the most we can look after properly.
+                <SplitFlap text="We built twelve rooms" />
+                <br />
+                <SplitFlap text="because twelve is the most" delay={0.4} />
+                <br />
+                <SplitFlap text="we can look after properly." delay={0.9} />
               </h2>
             </Reveal>
           </div>
 
           <div className="grid-3">
             {[
-              {
-                n: "01",
-                t: "Twelve Suites",
-                d: "Every room faces the water. None is the same.",
-              },
-              {
-                n: "02",
-                t: "A Living Kitchen",
-                d: "The menu changes with the tide. We don't print it.",
-              },
-              {
-                n: "03",
-                t: "Forbes Five-Star",
-                d: "Recognized for four consecutive years.",
-              },
+              { n: 12, suffix: "", label: "Twelve Suites", d: "Every room faces the water. None is the same." },
+              { n: 34, suffix: "", label: "Thirty-four Staff", d: "Three per room. Deliberately over-provisioned." },
+              { n: 5, suffix: "-Star", label: "Forbes Five-Star", d: "Recognized for four consecutive years." },
             ].map((s, i) => (
               <Reveal key={i} delay={i * 0.08}>
-                <div className="pt-6 border-t" style={{ borderColor: "rgba(26,26,29,0.15)" }}>
-                  <p className="eyebrow mb-4" style={{ color: "var(--color-gold)" }}>
-                    {s.n}
+                <div className="pt-6" style={{ borderTop: "1px solid rgba(26,26,29,0.15)" }}>
+                  <p className="display-2 mb-3" style={{ color: "var(--color-gold)" }}>
+                    <CountUp end={s.n} suffix={s.suffix} />
                   </p>
-                  <h3 className="display-3 mb-3">{s.t}</h3>
+                  <h3 className="display-3 mb-2">{s.label}</h3>
                   <p className="body">{s.d}</p>
                 </div>
               </Reveal>
@@ -111,7 +106,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ SUITES (dark) ============ */}
+      {/* SUITES — dark, with cursor preview on hover */}
       <section className="section-lg section-ink">
         <div className="container">
           <div className="section-head flex flex-wrap justify-between items-end gap-6 max-w-none">
@@ -131,7 +126,7 @@ export default function Home() {
           <div className="grid-3">
             {rooms.map((r, i) => (
               <Reveal key={r.slug} delay={i * 0.08}>
-                <Link href={`/rooms/${r.slug}`} className="block h-full">
+                <Link href={`/rooms/${r.slug}`} className="block h-full" data-preview={r.image}>
                   <SpotlightCard>
                     <div className="overflow-hidden" style={{ borderRadius: "20px 20px 0 0" }}>
                       <img
@@ -143,9 +138,7 @@ export default function Home() {
                     </div>
                     <div className="p-7 flex-1 flex flex-col">
                       <div className="flex justify-between items-baseline mb-4 gap-4">
-                        <h3 className="heading" style={{ fontSize: "1.35rem" }}>
-                          {r.name}
-                        </h3>
+                        <h3 className="heading" style={{ fontSize: "1.35rem" }}>{r.name}</h3>
                         <span className="text-xs whitespace-nowrap" style={{ color: "var(--color-gold)" }}>
                           from ${r.price}
                         </span>
@@ -170,7 +163,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ SPA (cream) ============ */}
+      {/* SPA — cream */}
       <section className="section-lg section-cream">
         <div className="container">
           <div className="section-head">
@@ -178,9 +171,7 @@ export default function Home() {
               <p className="eyebrow">Wellness</p>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2 className="display-2">
-                A subterranean spa carved into the cliff.
-              </h2>
+              <h2 className="display-2">A subterranean spa carved into the cliff.</h2>
             </Reveal>
           </div>
 
@@ -188,7 +179,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ DINING (dark) ============ */}
+      {/* DINING — dark */}
       <section className="section-lg section-ink">
         <div className="container">
           <div className="section-head">
@@ -229,7 +220,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ EXPERIENCES (cream) ============ */}
+      {/* EXPERIENCES — cream */}
       <section className="section-lg section-cream">
         <div className="container">
           <div className="section-head">
@@ -247,6 +238,7 @@ export default function Home() {
                 <div
                   className="relative rounded-2xl overflow-hidden group h-full"
                   style={{ aspectRatio: "4 / 5" }}
+                  data-preview={e.image}
                 >
                   <img
                     src={e.image}
@@ -273,7 +265,53 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ REVIEWS (dark) ============ */}
+      {/* COMPARISON — dark */}
+      <section className="section-lg section-ink">
+        <div className="container">
+          <div className="section-head">
+            <Reveal>
+              <p className="eyebrow">Compare</p>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <h2 className="display-2">Which suite is for you?</h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="lede">
+                Pick any two. Compare size, view, occupancy, and rate side by side.
+              </p>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.15}>
+            <RoomComparison />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* GALLERY — cream, with lightbox */}
+      <section className="section-lg section-cream">
+        <div className="container">
+          <div className="section-head flex flex-wrap justify-between items-end gap-6 max-w-none">
+            <div>
+              <Reveal>
+                <p className="eyebrow mb-5">Gallery</p>
+              </Reveal>
+              <Reveal delay={0.05}>
+                <h2 className="display-2">The house, in light.</h2>
+              </Reveal>
+            </div>
+            <Reveal delay={0.1}>
+              <Link href="/gallery" className="pill">View All</Link>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.15}>
+            <HomeGallery images={gallery} />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* REVIEWS — dark */}
       <section className="section-lg section-ink overflow-hidden">
         <div className="container">
           <div className="section-head">
@@ -304,7 +342,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ NEIGHBORHOOD (cream) ============ */}
+      {/* NEIGHBORHOOD — cream */}
       <section className="section-lg section-cream">
         <div className="container">
           <div className="section-head">
@@ -339,7 +377,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ FAQ (dark) ============ */}
+      {/* FAQ — dark */}
       <section className="section-lg section-ink">
         <div className="container">
           <div className="grid md:grid-cols-12 gap-12">
@@ -360,10 +398,7 @@ export default function Home() {
                     style={{ borderBottom: "1px solid rgba(245,241,232,0.1)" }}
                   >
                     <summary className="flex justify-between items-center cursor-pointer list-none gap-6">
-                      <span
-                        className="heading"
-                        style={{ fontSize: "1.15rem", fontWeight: 400 }}
-                      >
+                      <span className="heading" style={{ fontSize: "1.15rem", fontWeight: 400 }}>
                         {f.q}
                       </span>
                       <span
@@ -382,7 +417,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ============ CLOSING CTA (cream) ============ */}
+      {/* CLOSING CTA — cream */}
       <section className="section-lg section-cream">
         <div className="container text-center">
           <Reveal>
