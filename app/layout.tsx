@@ -8,6 +8,8 @@ import Preloader from "@/components/Preloader";
 import ScrollProgress from "@/components/ScrollProgress";
 import CookieConsent from "@/components/CookieConsent";
 import ConciergeChat from "@/components/ConciergeChat";
+import CursorPreview from "@/components/CursorPreview";
+import SoundToggle from "@/components/SoundToggle";
 
 export const metadata: Metadata = {
   title: "The Azure Horizon | Coastal Boutique Hotel, Malibu",
@@ -58,6 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Preloader />
         <ScrollProgress />
         <GhostCursor />
+        <CursorPreview />
         <SmoothScroll>
           <Nav />
           <main>{children}</main>
@@ -65,6 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </SmoothScroll>
         <CookieConsent />
         <ConciergeChat />
+        <SoundToggle />
       </body>
     </html>
   );
