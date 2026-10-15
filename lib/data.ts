@@ -222,9 +222,27 @@ export const dining = [
 ];
 
 export const spa = [
-  { name: "Oceanic Ritual", duration: "90 min", price: 420, desc: "Warm seashell massage, seaweed wrap, and a soak in a copper tub overlooking the Pacific.", image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1600&q=80" },
-  { name: "Thermal Circuit", duration: "120 min", price: 280, desc: "Geothermal pools, cedar sauna, cold plunge, and a volcanic-clay steam room.", image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1600&q=80" },
-  { name: "Facial Rituals", duration: "60 min", price: 340, desc: "Organic seaweed and hyaluronic treatments, tailored by our in-house aesthetician.", image: "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=1600&q=80" },
+  {
+    name: "Oceanic Ritual",
+    duration: "90 min",
+    price: 420,
+    desc: "Warm seashell massage, seaweed wrap, and a soak in a copper tub overlooking the Pacific.",
+    image: "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    name: "Thermal Circuit",
+    duration: "120 min",
+    price: 280,
+    desc: "Geothermal pools, cedar sauna, cold plunge, and a volcanic-clay steam room.",
+    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1600&q=80",
+  },
+  {
+    name: "Facial Rituals",
+    duration: "60 min",
+    price: 340,
+    desc: "Organic seaweed and hyaluronic treatments, tailored by our in-house aesthetician.",
+    image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1600&q=80",
+  },
 ];
 
 export const experiences = [
