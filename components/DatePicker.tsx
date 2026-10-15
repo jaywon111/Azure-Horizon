@@ -73,7 +73,7 @@ export default function DatePicker({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="w-full text-left px-4 py-3 rounded-xl transition-colors duration-300 flex items-center justify-between gap-3"
+        className="w-full text-left px-5 py-4 transition-colors duration-300 flex items-center justify-between gap-3"
         style={{
           background: "var(--color-graphite)",
           border: "1px solid rgba(245,241,232,0.1)",
@@ -83,7 +83,7 @@ export default function DatePicker({
       >
         <div>
           <div
-            className="text-[0.65rem] tracking-[0.18em] uppercase mb-1"
+            className="text-[0.65rem] tracking-[0.18em] uppercase mb-1.5"
             style={{ color: "rgba(245,241,232,0.45)" }}
           >
             {label}
@@ -102,29 +102,33 @@ export default function DatePicker({
           initial={{ opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute top-full left-0 right-0 mt-2 z-30 rounded-xl p-4"
+          className="absolute top-full left-0 right-0 mt-3 z-30 p-6"
           style={{
             background: "rgba(23,23,26,0.98)",
             border: "1px solid rgba(245,241,232,0.12)",
             backdropFilter: "blur(20px)",
             WebkitBackdropFilter: "blur(20px)",
+            boxShadow: "0 24px 60px rgba(0,0,0,0.6)",
           }}
         >
           {/* Month nav */}
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-6">
             <button
               type="button"
               onClick={() =>
                 setCursor(new Date(cursor.getFullYear(), cursor.getMonth() - 1, 1))
               }
-              className="p-1.5 rounded-full transition-colors duration-300 hover:bg-white/10"
+              className="p-2 rounded-full transition-colors duration-300 hover:bg-white/10"
               aria-label="Previous month"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path d="M8 2L4 6L8 10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
               </svg>
             </button>
-            <div className="text-sm" style={{ fontFamily: "var(--font-display)", letterSpacing: "-0.01em" }}>
+            <div
+              className="text-sm tracking-wide"
+              style={{ fontFamily: "var(--font-display)", letterSpacing: "-0.01em" }}
+            >
               {MONTHS[cursor.getMonth()]} {cursor.getFullYear()}
             </div>
             <button
@@ -132,7 +136,7 @@ export default function DatePicker({
               onClick={() =>
                 setCursor(new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1))
               }
-              className="p-1.5 rounded-full transition-colors duration-300 hover:bg-white/10"
+              className="p-2 rounded-full transition-colors duration-300 hover:bg-white/10"
               aria-label="Next month"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -142,7 +146,7 @@ export default function DatePicker({
           </div>
 
           {/* Day labels */}
-          <div className="grid grid-cols-7 mb-2">
+          <div className="grid grid-cols-7 mb-3">
             {DAYS.map((d, i) => (
               <div
                 key={i}
@@ -154,8 +158,8 @@ export default function DatePicker({
             ))}
           </div>
 
-          {/* Days */}
-          <div className="grid grid-cols-7 gap-1">
+          {/* Days — more breathing room */}
+          <div className="grid grid-cols-7 gap-2">
             {cells.map((d, i) => {
               if (!d) return <div key={i} />;
               const isDisabled = disabled(d);
@@ -167,7 +171,7 @@ export default function DatePicker({
                   type="button"
                   disabled={isDisabled}
                   onClick={() => select(d)}
-                  className="aspect-square rounded-lg text-[0.8rem] transition-colors duration-200 flex items-center justify-center"
+                  className="aspect-square text-[0.8rem] transition-colors duration-200 flex items-center justify-center"
                   style={{
                     background: isSelected ? "var(--color-gold)" : "transparent",
                     color: isSelected
@@ -175,7 +179,10 @@ export default function DatePicker({
                       : isDisabled
                       ? "rgba(245,241,232,0.2)"
                       : "var(--color-cream)",
-                    border: isToday && !isSelected ? "1px solid rgba(201,169,110,0.4)" : "1px solid transparent",
+                    border:
+                      isToday && !isSelected
+                        ? "1px solid rgba(201,169,110,0.4)"
+                        : "1px solid transparent",
                     cursor: isDisabled ? "not-allowed" : "pointer",
                     textDecoration: isDisabled && !isSelected ? "line-through" : "none",
                   }}
