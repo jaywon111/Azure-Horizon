@@ -15,6 +15,19 @@ export default function CookieConsent() {
     }
   }, []);
 
+  // Flag body when banner is visible so floating buttons can shift up
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    if (show) {
+      document.body.classList.add("cookie-visible");
+    } else {
+      document.body.classList.remove("cookie-visible");
+    }
+    return () => {
+      document.body.classList.remove("cookie-visible");
+    };
+  }, [show]);
+
   const decide = (choice: "accepted" | "declined") => {
     localStorage.setItem("azure_cookie_choice", choice);
     setShow(false);
@@ -30,7 +43,7 @@ export default function CookieConsent() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 80, opacity: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed left-0 right-0 bottom-0 z-[150] md:hidden"
+            className="fixed left-0 right-0 bottom-0 z-[170] md:hidden"
             style={{
               background: "rgba(23,23,26,0.98)",
               borderTop: "1px solid rgba(245,241,232,0.12)",
@@ -89,7 +102,7 @@ export default function CookieConsent() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 40, opacity: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="hidden md:block fixed right-6 bottom-6 z-[150] max-w-sm rounded-2xl p-6"
+            className="hidden md:block fixed right-6 bottom-6 z-[170] max-w-sm rounded-2xl p-6"
             style={{
               background: "rgba(23,23,26,0.95)",
               border: "1px solid rgba(245,241,232,0.1)",
@@ -102,8 +115,8 @@ export default function CookieConsent() {
               className="body"
               style={{ fontSize: "0.85rem", marginBottom: "1.25rem" }}
             >
-              We use minimal cookies to make the site work and understand how it's
-              used. Read our{" "}
+              We use minimal cookies to make the site work and understand how
+              it's used. Read our{" "}
               <Link
                 href="/privacy"
                 className="underline"
