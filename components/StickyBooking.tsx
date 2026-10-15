@@ -39,22 +39,29 @@ export default function StickyBooking({ room }: { room: Room }) {
 
   const card = (
     <div
-      className="rounded-2xl p-7"
       style={{
         background: "var(--color-carbon)",
         border: "1px solid rgba(245,241,232,0.1)",
+        padding: "1.75rem",
       }}
     >
-      <div className="flex justify-between items-baseline mb-6 gap-4">
-        <div>
-          <p className="eyebrow mb-1">From</p>
-          <p className="heading" style={{ fontSize: "1.75rem", color: "var(--color-cream)" }}>
+      {/* Price block — flat, hairline-bordered, no rounded edges */}
+      <div
+        className="pb-6 mb-6"
+        style={{ borderBottom: "1px solid rgba(245,241,232,0.08)" }}
+      >
+        <p className="eyebrow mb-2">From</p>
+        <div className="flex items-baseline justify-between gap-4">
+          <span
+            className="heading"
+            style={{ fontSize: "2rem", color: "var(--color-cream)" }}
+          >
             {fmt(room.price)}
-          </p>
+          </span>
+          <span className="body" style={{ fontSize: "0.8rem" }}>
+            per night
+          </span>
         </div>
-        <span className="body" style={{ fontSize: "0.8rem" }}>
-          per night
-        </span>
       </div>
 
       <div className="space-y-3 mb-6">
@@ -88,9 +95,10 @@ export default function StickyBooking({ room }: { room: Room }) {
               key={n}
               type="button"
               onClick={() => setGuests(n)}
-              className="flex-1 py-2.5 rounded-xl text-[0.85rem] transition-colors duration-300"
+              className="flex-1 py-2.5 text-[0.85rem] transition-colors duration-300"
               style={{
-                background: guests === n ? "var(--color-gold)" : "var(--color-graphite)",
+                background:
+                  guests === n ? "var(--color-gold)" : "var(--color-graphite)",
                 color: guests === n ? "var(--color-ink)" : "var(--color-cream)",
                 border:
                   guests === n
@@ -118,21 +126,36 @@ export default function StickyBooking({ room }: { room: Room }) {
               borderBottom: "1px solid rgba(245,241,232,0.08)",
             }}
           >
-            <div className="flex justify-between body" style={{ fontSize: "0.85rem" }}>
+            <div
+              className="flex justify-between body"
+              style={{ fontSize: "0.85rem" }}
+            >
               <span>
                 {fmt(room.price)} × {nights} night{nights > 1 ? "s" : ""}
               </span>
               <span style={{ color: "var(--color-cream)" }}>{fmt(subtotal)}</span>
             </div>
-            <div className="flex justify-between body" style={{ fontSize: "0.85rem" }}>
+            <div
+              className="flex justify-between body"
+              style={{ fontSize: "0.85rem" }}
+            >
               <span>Taxes & fees</span>
               <span style={{ color: "var(--color-cream)" }}>{fmt(taxes)}</span>
             </div>
-            <div className="flex justify-between pt-2" style={{ borderTop: "1px solid rgba(245,241,232,0.08)" }}>
-              <span className="heading" style={{ fontSize: "1rem", color: "var(--color-cream)" }}>
+            <div
+              className="flex justify-between pt-3"
+              style={{ borderTop: "1px solid rgba(245,241,232,0.08)" }}
+            >
+              <span
+                className="heading"
+                style={{ fontSize: "1rem", color: "var(--color-cream)" }}
+              >
                 Total
               </span>
-              <span className="heading" style={{ fontSize: "1.15rem", color: "var(--color-gold)" }}>
+              <span
+                className="heading"
+                style={{ fontSize: "1.15rem", color: "var(--color-gold)" }}
+              >
                 {fmt(total)}
               </span>
             </div>
@@ -152,12 +175,18 @@ export default function StickyBooking({ room }: { room: Room }) {
         No charge until confirmation
       </p>
 
-      <div className="mt-5 pt-5 flex items-center gap-2" style={{ borderTop: "1px solid rgba(245,241,232,0.08)" }}>
+      <div
+        className="mt-5 pt-5 flex items-center gap-2"
+        style={{ borderTop: "1px solid rgba(245,241,232,0.08)" }}
+      >
         <span
           className="block w-1.5 h-1.5 rounded-full"
           style={{ background: "var(--color-gold)" }}
         />
-        <span className="body" style={{ fontSize: "0.75rem", color: "var(--color-gold)" }}>
+        <span
+          className="body"
+          style={{ fontSize: "0.75rem", color: "var(--color-gold)" }}
+        >
           {room.nextAvailable}
         </span>
       </div>
@@ -191,9 +220,7 @@ export default function StickyBooking({ room }: { room: Room }) {
           className="fixed left-0 right-0 bottom-0 z-[150]"
           style={{
             background: "var(--color-ink)",
-            borderTopLeftRadius: "20px",
-            borderTopRightRadius: "20px",
-            borderTop: "1px solid rgba(245,241,232,0.1)",
+            borderTop: "1px solid rgba(245,241,232,0.12)",
             maxHeight: "90vh",
             overflowY: "auto",
           }}
@@ -207,7 +234,10 @@ export default function StickyBooking({ room }: { room: Room }) {
               <p className="eyebrow mb-0.5">From</p>
               <p className="heading" style={{ fontSize: "1.35rem" }}>
                 {fmt(room.price)}
-                <span className="body" style={{ fontSize: "0.75rem", marginLeft: "0.4rem" }}>
+                <span
+                  className="body"
+                  style={{ fontSize: "0.75rem", marginLeft: "0.4rem" }}
+                >
                   / night
                 </span>
               </p>
@@ -220,7 +250,10 @@ export default function StickyBooking({ room }: { room: Room }) {
             </span>
           </button>
 
-          <div className="px-6 pb-8" style={{ display: expanded ? "block" : "none" }}>
+          <div
+            className="px-4 pb-8"
+            style={{ display: expanded ? "block" : "none" }}
+          >
             {card}
           </div>
         </motion.div>
