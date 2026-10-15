@@ -1,5 +1,4 @@
 import { Reveal, BlurText } from "@/components/primitives";
-import MagneticButton from "@/components/MagneticButton";
 
 export const metadata = {
   title: "Careers | The Azure Horizon",
@@ -101,30 +100,38 @@ export default function CareersPage() {
             ))}
           </div>
 
+          {/* Flat Apply card — no rounded edges */}
           <Reveal delay={0.3}>
             <div
-              className="mt-16 p-10 md:p-12 rounded-2xl"
+              className="mt-20"
               style={{
-                background: "var(--color-carbon)",
-                border: "1px solid rgba(245,241,232,0.08)",
+                borderTop: "1px solid rgba(26,26,29,0.15)",
+                borderBottom: "1px solid rgba(26,26,29,0.15)",
+                padding: "3.5rem 0",
               }}
             >
-              <p className="eyebrow mb-5" style={{ color: "var(--color-gold)" }}>
-                Apply
-              </p>
-              <h3 className="display-3 mb-5" style={{ color: "var(--color-cream)" }}>
+              <p className="eyebrow mb-6">Apply</p>
+              <h3 className="display-2 mb-6 max-w-3xl">
                 Send a letter, not a résumé.
               </h3>
-              <p className="body-lg mb-8" style={{ maxWidth: "40rem" }}>
-                Tell us why this coast, why this house, and what you've looked after before.
-                We read every letter ourselves.
+              <p className="body-lg mb-10 max-w-2xl">
+                Tell us why this coast, why this house, and what you've looked
+                after before. We read every letter ourselves.
               </p>
-              <MagneticButton
+              <a
                 href="mailto:careers@azurehorizon.com"
-                primary
+                className="inline-flex items-center gap-3 transition-colors duration-300 hover:text-gold"
+                style={{
+                  color: "var(--color-gold)",
+                  fontSize: "1rem",
+                  letterSpacing: "0.02em",
+                  textDecoration: "underline",
+                  textUnderlineOffset: "6px",
+                  textDecorationColor: "rgba(201,169,110,0.4)",
+                }}
               >
-                careers@azurehorizon.com
-              </MagneticButton>
+                careers@azurehorizon.com <span>→</span>
+              </a>
             </div>
           </Reveal>
         </div>
