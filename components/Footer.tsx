@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 export default function Footer() {
   const [weather, setWeather] = useState<{ temp: number; code: number } | null>(null);
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -34,6 +36,13 @@ export default function Footer() {
     95: "Storm", 96: "Storm", 99: "Storm",
   };
 
+  const onSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setSubscribed(true);
+    setEmail("");
+  };
+
   return (
     <footer
       style={{
@@ -43,7 +52,6 @@ export default function Footer() {
     >
       <div className="container-wide py-20 md:py-24">
         <div className="grid md:grid-cols-12 gap-12 md:gap-8">
-          {/* Brand column */}
           <div className="md:col-span-4">
             <p className="eyebrow mb-6">The Azure Horizon</p>
             <p className="body-lg mb-8" style={{ maxWidth: "28rem" }}>
@@ -79,7 +87,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Stay */}
           <div className="md:col-span-2">
             <p className="eyebrow mb-6">Stay</p>
             <ul className="space-y-3">
@@ -101,7 +108,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* House */}
           <div className="md:col-span-2">
             <p className="eyebrow mb-6">House</p>
             <ul className="space-y-3">
@@ -124,7 +130,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Company */}
           <div className="md:col-span-2">
             <p className="eyebrow mb-6">Company</p>
             <ul className="space-y-3">
@@ -146,7 +151,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Legal */}
           <div className="md:col-span-2">
             <p className="eyebrow mb-6">Legal</p>
             <ul className="space-y-3">
@@ -167,8 +171,79 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Newsletter */}
         <div
-          className="mt-16 pt-8 flex flex-col md:flex-row justify-between gap-4"
+          className="mt-16 pt-12 grid md:grid-cols-2 gap-8 items-end"
+          style={{ borderTop: "1px solid rgba(245,241,232,0.08)" }}
+        >
+          <div>
+            <p className="eyebrow mb-4">Letters from the house</p>
+            <p className="body-lg max-w-md" style={{ fontSize: "1rem" }}>
+              Occasional notes from Malibu — new menus, seasonal openings, and
+              quiet stories. Never more than once a month.
+            </p>
+          </div>
+
+          {subscribed ? (
+            <div
+              className="pb-4 flex items-center gap-3"
+              style={{ borderBottom: "1px solid rgba(201,169,110,0.4)" }}
+            >
+              <span
+                className="block w-1.5 h-1.5 rounded-full"
+                style={{ background: "var(--color-gold)" }}
+              />
+              <p className="body" style={{ color: "var(--color-gold)" }}>
+                Thank you. We'll write soon.
+              </p>
+            </div>
+          ) : (
+            <form
+              onSubmit={onSubscribe}
+              className="flex items-center gap-4 pb-4"
+              style={{ borderBottom: "1px solid rgba(245,241,232,0.15)" }}
+            >
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="flex-1 bg-transparent outline-none body"
+                style={{
+                  color: "var(--color-cream)",
+                  fontSize: "0.95rem",
+                  padding: "0.5rem 0",
+                }}
+              />
+              <button
+                type="submit"
+                aria-label="Subscribe"
+                className="flex items-center justify-center rounded-full transition-colors duration-300 hover:bg-gold hover:text-ink flex-shrink-0"
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  background: "transparent",
+                  border: "1px solid rgba(245,241,232,0.15)",
+                  color: "var(--color-cream)",
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </form>
+          )}
+        </div>
+
+        <div
+          className="mt-12 pt-8 flex flex-col md:flex-row justify-between gap-4"
           style={{ borderTop: "1px solid rgba(245,241,232,0.08)" }}
         >
           <p
