@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Reveal, BlurText } from "@/components/primitives";
-import MagneticButton from "@/components/MagneticButton";
 import { rooms } from "@/lib/data";
 
 export default function BookPage() {
@@ -40,7 +39,7 @@ export default function BookPage() {
         <div className="container">
           <div className="grid md:grid-cols-12 gap-12 md:gap-16">
             <div className="md:col-span-8">
-              <form onSubmit={handleSubmit} className="space-y-8">
+              <form onSubmit={handleSubmit} className="space-y-10">
                 <div>
                   <p className="eyebrow mb-6">1 · Your Stay</p>
                   <div className="grid md:grid-cols-2 gap-6">
@@ -110,7 +109,7 @@ export default function BookPage() {
                   </Field>
                 </div>
 
-                <div className="pt-4 flex flex-wrap items-center gap-6">
+                <div className="pt-6 flex flex-wrap items-center gap-6">
                   <button
                     type="submit"
                     disabled={submitting}
@@ -128,39 +127,47 @@ export default function BookPage() {
 
             <div className="md:col-span-4">
               <div
-                className="p-8 rounded-2xl lg:sticky lg:top-32"
+                className="lg:sticky lg:top-32"
                 style={{
                   background: "var(--color-carbon)",
                   border: "1px solid rgba(245,241,232,0.08)",
+                  padding: "2rem",
                 }}
               >
-                <p className="eyebrow mb-6">What happens next</p>
-                <ul className="space-y-5">
+                <p className="eyebrow mb-8">What happens next</p>
+                <ul className="space-y-7">
                   {[
                     "A member of our team reviews your request.",
                     "We confirm availability and reply within 15 minutes.",
                     "You receive a private booking link and welcome note.",
                   ].map((s, i) => (
-                    <li key={i} className="flex gap-4">
+                    <li key={i} className="flex gap-5">
                       <span
-                        className="text-xs tracking-widest"
-                        style={{ color: "var(--color-gold)", minWidth: "1.5rem" }}
+                        className="text-xs tracking-widest pt-1"
+                        style={{ color: "var(--color-gold)", minWidth: "1.75rem" }}
                       >
                         0{i + 1}
                       </span>
-                      <span className="body" style={{ color: "var(--color-cream)" }}>
+                      <span
+                        className="body"
+                        style={{ color: "var(--color-cream)", lineHeight: 1.6 }}
+                      >
                         {s}
                       </span>
                     </li>
                   ))}
                 </ul>
 
-                <div className="hairline my-8" />
+                <div
+                  className="hairline my-8"
+                  style={{ background: "rgba(245,241,232,0.08)" }}
+                />
 
-                <p className="eyebrow mb-3">Prefer to call?</p>
+                <p className="eyebrow mb-4">Prefer to call?</p>
                 <a
                   href="tel:+15550199"
                   className="heading transition-colors duration-300 hover:text-gold"
+                  style={{ fontSize: "1.35rem" }}
                 >
                   +1 555 0199
                 </a>
