@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import WeatherWidget from "@/components/WeatherWidget";
 import CurrencySelector from "@/components/CurrencySelector";
 
 const links = [
@@ -76,6 +75,15 @@ export default function Nav() {
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
   const setCurrencyAndClose = (code: string) => {
     localStorage.setItem("azure_currency", code);
     window.dispatchEvent(new CustomEvent("azure:currency", { detail: code }));
@@ -84,31 +92,31 @@ export default function Nav() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-[100] flex justify-center pointer-events-none px-4 pt-5 md:pt-6">
+      {/* Floating pill nav — one clean row on every viewport */}
+      <div className="fixed top-0 left-0 right-0 z-[100] flex justify-center pointer-events-none px-3 md:px-4 pt-4 md:pt-6">
         <motion.nav
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-auto flex items-center gap-0.5 rounded-full border border-white/10 backdrop-blur-xl transition-colors duration-500"
+          className="pointer-events-auto flex items-center rounded-full border border-white/10 backdrop-blur-xl transition-colors duration-500"
           style={{
-            background: scrolled ? "rgba(14,14,16,0.82)" : "rgba(14,14,16,0.28)",
-            padding: "0.375rem",
-            paddingLeft: "1.25rem",
-            paddingRight: "0.375rem",
+            background: scrolled ? "rgba(14,14,16,0.85)" : "rgba(14,14,16,0.3)",
+            padding: "0.35rem",
+            paddingLeft: "1.15rem",
+            paddingRight: "0.35rem",
+            gap: "0.25rem",
           }}
         >
           <Link
             href="/"
-            className="text-sm font-medium tracking-tight whitespace-nowrap pr-2 md:pr-3"
+            className="text-sm font-medium tracking-tight whitespace-nowrap"
             style={{ fontFamily: "var(--font-display)", letterSpacing: "-0.01em" }}
             onClick={() => setMenuOpen(false)}
           >
             Azure Horizon
           </Link>
 
-          <WeatherWidget />
-
-          <div className="hidden xl:flex items-center gap-0.5 mx-1">
+          <div className="hidden xl:flex items-center ml-1 mr-1">
             {links.map((l) => (
               <Link
                 key={l.href}
@@ -133,8 +141,8 @@ export default function Nav() {
           <button
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Menu"
-            className="ml-0.5 p-2.5 rounded-full transition-colors duration-300 hover:bg-white/6 flex items-center justify-center"
-            style={{ minWidth: "2.25rem", minHeight: "2.25rem" }}
+            className="p-2.5 rounded-full transition-colors duration-300 hover:bg-white/6 flex items-center justify-center flex-shrink-0"
+            style={{ width: "2.25rem", height: "2.25rem" }}
           >
             <span className="grid grid-cols-3 gap-[3px]">
               {Array.from({ length: 9 }).map((_, i) => (
@@ -149,6 +157,7 @@ export default function Nav() {
         </motion.nav>
       </div>
 
+      {/* Full-screen overlay menu — tap anywhere to close */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -156,10 +165,11 @@ export default function Nav() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            onClick={() => setMenuOpen(false)}
             className="fixed inset-0 z-[99] flex flex-col overflow-y-auto"
             style={{ background: "var(--color-ink)" }}
           >
-            <div className="container flex-1 flex flex-col pt-32 pb-20">
+            <div className="container flex-1 flex flex-col pt-40 md:pt-36 pb-20">
               <div className="grid md:grid-cols-3 gap-12 md:gap-16">
                 {menuSections.map((section, si) => (
                   <motion.div
@@ -190,7 +200,6 @@ export default function Nav() {
                 ))}
               </div>
 
-              {/* Mobile-only currency row */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -202,7 +211,10 @@ export default function Nav() {
                   {["USD", "EUR", "GBP", "JPY", "AUD", "CAD"].map((code) => (
                     <button
                       key={code}
-                      onClick={() => setCurrencyAndClose(code)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrencyAndClose(code);
+                      }}
                       className="px-3.5 py-2 text-[0.7rem] tracking-wider uppercase rounded-full transition-colors duration-300"
                       style={{
                         color:
