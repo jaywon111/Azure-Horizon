@@ -68,7 +68,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* THE HOUSE — cream, with counters */}
+      {/* THE HOUSE — cream */}
       <section className="section-lg section-cream">
         <div className="container">
           <div className="section-head">
@@ -106,7 +106,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SUITES — dark, with cursor preview on hover */}
+      {/* SUITES — dark */}
       <section className="section-lg section-ink">
         <div className="container">
           <div className="section-head flex flex-wrap justify-between items-end gap-6 max-w-none">
@@ -288,7 +288,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* GALLERY — cream, with lightbox */}
+      {/* GALLERY — cream */}
       <section className="section-lg section-cream">
         <div className="container">
           <div className="section-head flex flex-wrap justify-between items-end gap-6 max-w-none">
@@ -311,8 +311,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* REVIEWS — dark */}
-      <section className="section-lg section-ink overflow-hidden">
+      {/* REVIEWS — dark, continuous newspaper strip */}
+      <section className="section-lg section-ink">
         <div className="container">
           <div className="section-head">
             <Reveal>
@@ -321,24 +321,15 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="marquee">
-          {[...reviews, ...reviews].map((r, i) => (
-            <div
-              key={i}
-              className="flex-shrink-0 p-8 md:p-10 rounded-2xl"
-              style={{
-                minWidth: "340px",
-                maxWidth: "420px",
-                background: "var(--color-carbon)",
-                border: "1px solid rgba(245,241,232,0.08)",
-              }}
-            >
-              <p className="display-3 mb-8" style={{ fontSize: "1.15rem", lineHeight: 1.45 }}>
-                "{r.quote}"
-              </p>
-              <p className="eyebrow">{r.author}</p>
-            </div>
-          ))}
+        <div className="marquee-strip">
+          <div className="marquee">
+            {[...reviews, ...reviews].map((r, i) => (
+              <div key={i} className="marquee-item">
+                <p>"{r.quote}"</p>
+                <span>{r.author}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -417,11 +408,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CLOSING CTA — cream */}
+      {/* CLOSING CTA — cream, with more breathing room */}
       <section className="section-lg section-cream">
         <div className="container text-center">
           <Reveal>
-            <h2 className="display-2 max-w-3xl mx-auto mb-10" style={{ marginLeft: "auto", marginRight: "auto" }}>
+            <h2
+              className="display-2 max-w-3xl mb-16"
+              style={{ marginLeft: "auto", marginRight: "auto" }}
+            >
               Come for a night. Stay for the season.
             </h2>
             <MagneticButton href="/book" primary>Reserve a Suite</MagneticButton>
