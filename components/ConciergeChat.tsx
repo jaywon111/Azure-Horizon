@@ -17,229 +17,53 @@ type Intent = {
   links?: { label: string; href: string }[];
 };
 
-/* ============================================
-   KNOWLEDGE BASE — every answer is a real page
-   or a fact from lib/data.ts
-   ============================================ */
 const intents: Intent[] = [
-  // ---------- Rooms & suites ----------
-  {
-    keywords: ["suite", "suites", "room", "rooms", "villa", "villas", "accommodation", "stay", "book", "reserve", "reservation"],
-    answer:
-      "We have three accommodations: the Ocean Suite (from $1,200), the Garden Villa (from $1,850), and The Cliff House (from $4,200). Every one faces the water.",
-    links: [
-      { label: "View Suites", href: "/rooms" },
-      { label: "Reserve", href: "/book" },
-    ],
-  },
-  {
-    keywords: ["ocean suite", "ocean"],
-    answer:
-      "The Ocean Suite is 820 sq ft with a private balcony over the Pacific, a marble ensuite, and a hand-tuned Steinway. From $1,200 / night.",
-    links: [{ label: "See the Ocean Suite", href: "/rooms/ocean-suite" }],
-  },
-  {
-    keywords: ["garden villa", "garden", "villa"],
-    answer:
-      "The Garden Villa is 1,400 sq ft with a private plunge pool, outdoor shower, and a wood-burning fireplace. From $1,850 / night.",
-    links: [{ label: "See the Garden Villa", href: "/rooms/garden-villa" }],
-  },
-  {
-    keywords: ["cliff house", "cliff", "residence"],
-    answer:
-      "The Cliff House is our most private residence — 2,600 sq ft, two bedrooms, an infinity pool, and a dedicated house manager. From $4,200 / night.",
-    links: [{ label: "See The Cliff House", href: "/rooms/cliff-house" }],
-  },
-
-  // ---------- Dining ----------
-  {
-    keywords: ["dining", "restaurant", "eat", "food", "menu", "dinner", "breakfast", "lunch", "tide", "salt", "listening room"],
-    answer:
-      "Three kitchens: Tide (chef's table, 7 courses), Salt (all-day coastal), and The Listening Room (vinyl bar). Dining is reserved for guests and members.",
-    links: [
-      { label: "Dining", href: "/dining" },
-      { label: "Reserve a table", href: "mailto:dining@azurehorizon.com" },
-    ],
-  },
-  {
-    keywords: ["dress code", "dress", "attire", "wear"],
-    answer:
-      "Smart casual in all three venues. No jacket required, no beachwear at dinner. Tide is the dressiest of the three.",
-  },
-
-  // ---------- Spa ----------
-  {
-    keywords: ["spa", "massage", "wellness", "treatment", "facial", "sauna"],
-    answer:
-      "The spa is carved into the cliff, eleven metres below the property. Three rituals: Oceanic Ritual (90 min, $420), Thermal Circuit (120 min, $280), and Facial Rituals (60 min, $340).",
-    links: [{ label: "Spa & Wellness", href: "/spa" }],
-  },
-
-  // ---------- Experiences ----------
-  {
-    keywords: ["experience", "experiences", "sail", "sailing", "hike", "hiking", "boat", "cook", "cooking"],
-    answer:
-      "Three signature experiences: a sunrise sail (42-ft sloop), a chef's table morning at the market, and a guided 7-mile hike through the Santa Monica Mountains. All arranged by your concierge.",
-    links: [{ label: "Experiences", href: "/experiences" }],
-  },
-
-  // ---------- Offers ----------
-  {
-    keywords: ["offer", "offers", "package", "deal", "discount", "promotion"],
-    answer:
-      "Three current offers: The Quiet Escape (3 nights, from $3,400), The Chef's Journey (2 nights, from $4,200), and The Wellness Reset (5 nights, from $7,200).",
-    links: [{ label: "Offers", href: "/offers" }],
-  },
-
-  // ---------- Events ----------
-  {
-    keywords: ["event", "events", "wedding", "weddings", "meeting", "boardroom", "private dining", "party", "gather", "terrace", "cellar"],
-    answer:
-      "Three spaces: The Terrace (120 seated, cliff edge), The Cellar (24 seated, in the wine cellar), and The Boardroom (18 seated). We host weddings, private dinners, and quiet meetings.",
-    links: [
-      { label: "Events & Weddings", href: "/events" },
-      { label: "Speak with events", href: "/contact" },
-    ],
-  },
-
-  // ---------- Location ----------
-  {
-    keywords: ["where", "location", "address", "directions", "drive", "lax", "airport", "map", "malibu"],
-    answer:
-      "We're at 100 Ocean Drive, Malibu, CA 90265. From LAX: I-405 N → CA-1 N (Pacific Coast Highway) → 15 miles north → right onto Ocean Drive. We're the last house on the left.",
-    links: [{ label: "Contact & Map", href: "/contact" }],
-  },
-  {
-    keywords: ["weather", "temperature", "climate", "warm", "cold"],
-    answer:
-      "Malibu sits around 20–24°C most of the year. Mornings can be cool and misty, afternoons are warm and clear. We recommend a light layer for evenings on the terrace.",
-  },
-  {
-    keywords: ["beach", "beaches", "pier", "getty", "neptune", "el matador", "local", "neighborhood", "nearby"],
-    answer:
-      "Our neighborhood: Getty Villa (Roman antiquities, 20 min south), Malibu Pier (working pier with a perfect breakfast counter), El Matador Beach (sea stacks and coves), and Neptune's Net (roadside seafood, unchanged since 1958).",
-  },
-
-  // ---------- Policies ----------
-  {
-    keywords: ["pet", "pets", "dog", "dogs", "cat", "animal"],
-    answer:
-      "Small dogs up to 20 kg are welcome in Garden Villas and The Cliff House, with a one-time fee of $150. Please let us know at booking.",
-  },
-  {
-    keywords: ["child", "children", "kids", "family", "families", "baby", "babies", "nanny"],
-    answer:
-      "We are a family-friendly house with a dedicated children's program and a private nanny service on request. Cribs and highchairs are complimentary.",
-  },
-  {
-    keywords: ["check in", "check-in", "checkin", "check out", "check-out", "checkout", "arrival", "departure", "time"],
-    answer:
-      "Check-in from 15:00, check-out by 11:00. Early arrival and late departure are available on request — just note it when you book.",
-  },
-  {
-    keywords: ["cancel", "cancellation", "refund", "policy"],
-    answer:
-      "Free cancellation up to 72 hours before arrival. Within 72 hours, one night is charged.",
-  },
-  {
-    keywords: ["park", "parking", "car", "ev", "charge", "charger", "tesla"],
-    answer:
-      "Complimentary valet parking for all guests. Four Tesla Destination Chargers and two universal Level 2 EV chargers on site.",
-  },
-  {
-    keywords: ["wifi", "wi-fi", "internet", "connection"],
-    answer:
-      "Fibre Wi-Fi throughout the property — suites, spa, dining, and grounds. No password required for guests.",
-  },
-  {
-    keywords: ["transfer", "airport", "pickup", "helicopter", "shuttle"],
-    answer:
-      "Complimentary luxury sedan transfers from LAX are included for suites and villas. Helicopter transfer available on request.",
-  },
-  {
-    keywords: ["smoke", "smoking", "vape", "vaping"],
-    answer:
-      "The house is entirely non-smoking, including balconies and terraces. A designated outdoor area is available near the garden path.",
-  },
-  {
-    keywords: ["access", "accessible", "wheelchair", "disability", "ada"],
-    answer:
-      "The Garden Villa and The Cliff House are step-free and fully accessible. The Ocean Suite requires stairs. Full accessibility details are available on request.",
-  },
-
-  // ---------- Payment / booking ----------
-  {
-    keywords: ["pay", "payment", "deposit", "card", "credit", "cash"],
-    answer:
-      "No deposit is taken online. A member of our team confirms your reservation within 15 minutes, then sends a private booking link. All major cards accepted.",
-  },
-  {
-    keywords: ["price", "pricing", "cost", "how much", "rate", "rates"],
-    answer:
-      "Rates start at $1,200 for the Ocean Suite, $1,850 for the Garden Villa, and $4,200 for The Cliff House. Rates vary by season and length of stay.",
-    links: [{ label: "See all suites", href: "/rooms" }],
-  },
-  {
-    keywords: ["availability", "available", "vacancy", "open"],
-    answer:
-      "For exact availability, we recommend choosing your dates on a suite page, or contacting us directly — we usually reply within 15 minutes.",
-    links: [
-      { label: "Check dates", href: "/rooms/ocean-suite" },
-      { label: "Contact us", href: "/contact" },
-    ],
-  },
-
-  // ---------- Contact ----------
-  {
-    keywords: ["contact", "call", "phone", "email", "reach", "speak", "human"],
-    answer:
-      "You can reach us at +1 555 0199 or stay@azurehorizon.com. Our concierge replies to every enquiry within 15 minutes during business hours.",
-    links: [{ label: "Contact", href: "/contact" }],
-  },
-
-  // ---------- About ----------
-  {
-    keywords: ["about", "story", "history", "who", "founder", "owner", "house"],
-    answer:
-      "The Azure Horizon is a twelve-room house on a forgotten stretch of Malibu cliff. We bought the land in 2019, broke ground in 2021, and opened in 2023. Forbes Five-Star since 2026.",
-    links: [{ label: "Our Story", href: "/about" }],
-  },
-  {
-    keywords: ["review", "reviews", "rating", "star"],
-    answer:
-      "We hold a Forbes Five-Star rating and have been featured in Condé Nast Traveler, Monocle, and Travel + Leisure. Our guests write the best reviews — scroll the homepage to see them.",
-    links: [{ label: "Read reviews", href: "/" }],
-  },
+  { keywords: ["suite", "suites", "room", "rooms", "villa", "villas", "accommodation", "stay", "book", "reserve", "reservation"], answer: "We have three accommodations: the Ocean Suite (from $1,200), the Garden Villa (from $1,850), and The Cliff House (from $4,200). Every one faces the water.", links: [{ label: "View Suites", href: "/rooms" }, { label: "Reserve", href: "/book" }] },
+  { keywords: ["ocean suite", "ocean"], answer: "The Ocean Suite is 820 sq ft with a private balcony over the Pacific, a marble ensuite, and a hand-tuned Steinway. From $1,200 / night.", links: [{ label: "See the Ocean Suite", href: "/rooms/ocean-suite" }] },
+  { keywords: ["garden villa", "garden", "villa"], answer: "The Garden Villa is 1,400 sq ft with a private plunge pool, outdoor shower, and a wood-burning fireplace. From $1,850 / night.", links: [{ label: "See the Garden Villa", href: "/rooms/garden-villa" }] },
+  { keywords: ["cliff house", "cliff", "residence"], answer: "The Cliff House is our most private residence — 2,600 sq ft, two bedrooms, an infinity pool, and a dedicated house manager. From $4,200 / night.", links: [{ label: "See The Cliff House", href: "/rooms/cliff-house" }] },
+  { keywords: ["dining", "restaurant", "eat", "food", "menu", "dinner", "breakfast", "lunch", "tide", "salt", "listening room"], answer: "Three kitchens: Tide (chef's table, 7 courses), Salt (all-day coastal), and The Listening Room (vinyl bar). Dining is reserved for guests and members.", links: [{ label: "Dining", href: "/dining" }, { label: "Reserve a table", href: "mailto:dining@azurehorizon.com" }] },
+  { keywords: ["dress code", "dress", "attire", "wear"], answer: "Smart casual in all three venues. No jacket required, no beachwear at dinner. Tide is the dressiest of the three." },
+  { keywords: ["spa", "massage", "wellness", "treatment", "facial", "sauna"], answer: "The spa is carved into the cliff, eleven metres below the property. Three rituals: Oceanic Ritual (90 min, $420), Thermal Circuit (120 min, $280), and Facial Rituals (60 min, $340).", links: [{ label: "Spa & Wellness", href: "/spa" }] },
+  { keywords: ["experience", "experiences", "sail", "sailing", "hike", "hiking", "boat", "cook", "cooking"], answer: "Three signature experiences: a sunrise sail (42-ft sloop), a chef's table morning at the market, and a guided 7-mile hike through the Santa Monica Mountains.", links: [{ label: "Experiences", href: "/experiences" }] },
+  { keywords: ["offer", "offers", "package", "deal", "discount", "promotion"], answer: "Three current offers: The Quiet Escape (3 nights, from $3,400), The Chef's Journey (2 nights, from $4,200), and The Wellness Reset (5 nights, from $7,200).", links: [{ label: "Offers", href: "/offers" }] },
+  { keywords: ["event", "events", "wedding", "weddings", "meeting", "boardroom", "private dining", "party", "gather", "terrace", "cellar"], answer: "Three spaces: The Terrace (120 seated, cliff edge), The Cellar (24 seated, in the wine cellar), and The Boardroom (18 seated).", links: [{ label: "Events & Weddings", href: "/events" }, { label: "Speak with events", href: "/contact" }] },
+  { keywords: ["where", "location", "address", "directions", "drive", "lax", "airport", "map", "malibu"], answer: "We're at 100 Ocean Drive, Malibu, CA 90265. From LAX: I-405 N → CA-1 N (Pacific Coast Highway) → 15 miles north → right onto Ocean Drive.", links: [{ label: "Contact & Map", href: "/contact" }] },
+  { keywords: ["weather", "temperature", "climate", "warm", "cold"], answer: "Malibu sits around 20–24°C most of the year. Mornings can be cool and misty, afternoons are warm and clear. We recommend a light layer for evenings on the terrace." },
+  { keywords: ["beach", "beaches", "pier", "getty", "neptune", "el matador", "local", "neighborhood", "nearby"], answer: "Our neighborhood: Getty Villa, Malibu Pier, El Matador Beach, and Neptune's Net — a roadside seafood counter unchanged since 1958." },
+  { keywords: ["pet", "pets", "dog", "dogs", "cat", "animal"], answer: "Small dogs up to 20 kg are welcome in Garden Villas and The Cliff House, with a one-time fee of $150. Please let us know at booking." },
+  { keywords: ["child", "children", "kids", "family", "families", "baby", "babies", "nanny"], answer: "We are a family-friendly house with a dedicated children's program and a private nanny service on request. Cribs and highchairs are complimentary." },
+  { keywords: ["check in", "check-in", "checkin", "check out", "check-out", "checkout", "arrival", "departure", "time"], answer: "Check-in from 15:00, check-out by 11:00. Early arrival and late departure are available on request." },
+  { keywords: ["cancel", "cancellation", "refund", "policy"], answer: "Free cancellation up to 72 hours before arrival. Within 72 hours, one night is charged." },
+  { keywords: ["park", "parking", "car", "ev", "charge", "charger", "tesla"], answer: "Complimentary valet parking for all guests. Four Tesla Destination Chargers and two universal Level 2 EV chargers on site." },
+  { keywords: ["wifi", "wi-fi", "internet", "connection"], answer: "Fibre Wi-Fi throughout the property — suites, spa, dining, and grounds. No password required for guests." },
+  { keywords: ["transfer", "airport", "pickup", "helicopter", "shuttle"], answer: "Complimentary luxury sedan transfers from LAX are included for suites and villas. Helicopter transfer available on request." },
+  { keywords: ["smoke", "smoking", "vape", "vaping"], answer: "The house is entirely non-smoking, including balconies and terraces. A designated outdoor area is available near the garden path." },
+  { keywords: ["access", "accessible", "wheelchair", "disability", "ada"], answer: "The Garden Villa and The Cliff House are step-free and fully accessible. The Ocean Suite requires stairs. Full details available on request." },
+  { keywords: ["pay", "payment", "deposit", "card", "credit", "cash"], answer: "No deposit is taken online. A member of our team confirms your reservation within 15 minutes, then sends a private booking link." },
+  { keywords: ["price", "pricing", "cost", "how much", "rate", "rates"], answer: "Rates start at $1,200 for the Ocean Suite, $1,850 for the Garden Villa, and $4,200 for The Cliff House. Rates vary by season.", links: [{ label: "See all suites", href: "/rooms" }] },
+  { keywords: ["availability", "available", "vacancy", "open"], answer: "For exact availability, choose your dates on a suite page, or contact us directly — we usually reply within 15 minutes.", links: [{ label: "Check dates", href: "/rooms/ocean-suite" }, { label: "Contact us", href: "/contact" }] },
+  { keywords: ["contact", "call", "phone", "email", "reach", "speak", "human"], answer: "You can reach us at +1 555 0199 or stay@azurehorizon.com. Our concierge replies to every enquiry within 15 minutes.", links: [{ label: "Contact", href: "/contact" }] },
+  { keywords: ["about", "story", "history", "who", "founder", "owner", "house"], answer: "The Azure Horizon is a twelve-room house on a forgotten stretch of Malibu cliff. We bought the land in 2019, broke ground in 2021, and opened in 2023. Forbes Five-Star since 2026.", links: [{ label: "Our Story", href: "/about" }] },
+  { keywords: ["review", "reviews", "rating", "star"], answer: "We hold a Forbes Five-Star rating and have been featured in Condé Nast Traveler, Monocle, and Travel + Leisure.", links: [{ label: "Read reviews", href: "/" }] },
 ];
 
-/* ============================================
-   MATCHING
-   ============================================ */
 function findAnswer(query: string): Intent | null {
   const q = query.toLowerCase().trim();
   if (!q) return null;
-
   let best: { intent: Intent; score: number } | null = null;
-
   for (const intent of intents) {
     let score = 0;
     for (const kw of intent.keywords) {
-      if (q.includes(kw)) {
-        // Prefer longer keyword matches (more specific)
-        score += kw.length;
-      }
+      if (q.includes(kw)) score += kw.length;
     }
     if (score > 0 && (!best || score > best.score)) {
       best = { intent, score };
     }
   }
-
   return best?.intent || null;
 }
 
-/* ============================================
-   COMPONENT
-   ============================================ */
 export default function ConciergeChat() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
@@ -253,6 +77,7 @@ export default function ConciergeChat() {
   const [typing, setTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const lastBotAnswerRef = useRef<string>("");
 
   const suggestions = [
     "Do you allow pets?",
@@ -268,10 +93,23 @@ export default function ConciergeChat() {
     }
   }, [messages, typing]);
 
+  // Keyboard-aware positioning via visualViewport
   useEffect(() => {
-    if (open && inputRef.current) {
-      setTimeout(() => inputRef.current?.focus(), 400);
-    }
+    if (!open) return;
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const onResize = () => {
+      const kbHeight = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      document.documentElement.style.setProperty("--kb-h", `${kbHeight}px`);
+    };
+    vv.addEventListener("resize", onResize);
+    vv.addEventListener("scroll", onResize);
+    onResize();
+    return () => {
+      vv.removeEventListener("resize", onResize);
+      vv.removeEventListener("scroll", onResize);
+      document.documentElement.style.setProperty("--kb-h", "0px");
+    };
   }, [open]);
 
   useEffect(() => {
@@ -281,6 +119,12 @@ export default function ConciergeChat() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  useEffect(() => {
+    if (open && inputRef.current) {
+      setTimeout(() => inputRef.current?.focus(), 400);
+    }
   }, [open]);
 
   const send = (text: string) => {
@@ -294,14 +138,29 @@ export default function ConciergeChat() {
 
     setTimeout(() => {
       const intent = findAnswer(trimmed);
-      const botMsg: Message = intent
-        ? { id: Date.now() + 1, role: "bot", text: intent.answer, links: intent.links }
-        : {
-            id: Date.now() + 1,
-            role: "bot",
-            text: "I'm not sure about that one. You can reach our team directly at +1 555 0199 or stay@azurehorizon.com — we reply within 15 minutes.",
-            links: [{ label: "Contact us", href: "/contact" }],
-          };
+      let botText: string;
+      let botLinks: { label: string; href: string }[] | undefined;
+
+      if (intent && intent.answer === lastBotAnswerRef.current) {
+        botText =
+          "It looks like I may have covered that already. Was there a different detail you were wondering about? Our team is also happy to help — +1 555 0199.";
+        botLinks = [{ label: "Contact us", href: "/contact" }];
+      } else if (intent) {
+        botText = intent.answer;
+        botLinks = intent.links;
+        lastBotAnswerRef.current = intent.answer;
+      } else {
+        botText =
+          "I'm not sure about that one. You can reach our team directly at +1 555 0199 or stay@azurehorizon.com — we reply within 15 minutes.";
+        botLinks = [{ label: "Contact us", href: "/contact" }];
+      }
+
+      const botMsg: Message = {
+        id: Date.now() + 1,
+        role: "bot",
+        text: botText,
+        links: botLinks,
+      };
       setMessages((m) => [...m, botMsg]);
       setTyping(false);
     }, 650);
@@ -314,7 +173,6 @@ export default function ConciergeChat() {
 
   return (
     <>
-      {/* Floating bubble */}
       <motion.button
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -359,12 +217,7 @@ export default function ConciergeChat() {
               viewBox="0 0 24 24"
               fill="none"
             >
-              <path
-                d="M4 5h16v12H8l-4 4V5z"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinejoin="round"
-              />
+              <path d="M4 5h16v12H8l-4 4V5z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
               <circle cx="9" cy="11" r="1" fill="currentColor" />
               <circle cx="12" cy="11" r="1" fill="currentColor" />
               <circle cx="15" cy="11" r="1" fill="currentColor" />
@@ -373,7 +226,6 @@ export default function ConciergeChat() {
         </AnimatePresence>
       </motion.button>
 
-      {/* Chat panel */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -384,9 +236,9 @@ export default function ConciergeChat() {
             className="concierge-panel fixed z-[180] flex flex-col"
             style={{
               right: "1.25rem",
-              bottom: "8.75rem",
-              width: "min(380px, calc(100vw - 2.5rem))",
-              height: "min(560px, calc(100vh - 11rem))",
+              bottom: "calc(var(--kb-h, 0px) + 8.75rem)",
+              width: "min(400px, calc(100vw - 2.5rem))",
+              height: "min(600px, calc(100vh - var(--kb-h, 0px) - 11rem))",
               background: "rgba(14,14,16,0.98)",
               border: "1px solid rgba(245,241,232,0.12)",
               borderRadius: "20px",
@@ -396,13 +248,12 @@ export default function ConciergeChat() {
               overflow: "hidden",
             }}
           >
-            {/* Header */}
             <div
               className="flex-shrink-0 flex items-center gap-3 px-5 py-4"
               style={{ borderBottom: "1px solid rgba(245,241,232,0.08)" }}
             >
               <span
-                className="flex items-center justify-center rounded-full"
+                className="flex items-center justify-center rounded-full flex-shrink-0"
                 style={{
                   width: "36px",
                   height: "36px",
@@ -411,15 +262,10 @@ export default function ConciergeChat() {
                 }}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M4 5h16v12H8l-4 4V5z"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinejoin="round"
-                  />
+                  <path d="M4 5h16v12H8l-4 4V5z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
                 </svg>
               </span>
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <p className="heading" style={{ fontSize: "0.9rem" }}>
                   Concierge
                 </p>
@@ -440,23 +286,17 @@ export default function ConciergeChat() {
                 className="p-2 rounded-full transition-colors duration-300 hover:bg-white/6"
               >
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path
-                    d="M2 2L10 10M10 2L2 10"
-                    stroke="currentColor"
-                    strokeWidth="1.4"
-                    strokeLinecap="round"
-                  />
+                  <path d="M2 2L10 10M10 2L2 10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
                 </svg>
               </button>
             </div>
 
-            {/* Messages */}
             <div
               ref={scrollRef}
-              className="flex-1 overflow-y-auto px-5 py-5 space-y-4"
+              className="flex-1 overflow-y-auto px-5 py-6 space-y-6"
               style={{ scrollbarWidth: "thin" }}
             >
-              {messages.map((m) => (
+              {messages.map((m, idx) => (
                 <motion.div
                   key={m.id}
                   initial={{ opacity: 0, y: 8 }}
@@ -468,37 +308,36 @@ export default function ConciergeChat() {
                     className="max-w-[85%] rounded-2xl px-4 py-3"
                     style={{
                       background:
-                        m.role === "user"
-                          ? "var(--color-gold)"
-                          : "var(--color-carbon)",
+                        m.role === "user" ? "var(--color-gold)" : "var(--color-carbon)",
                       color:
-                        m.role === "user"
-                          ? "var(--color-ink)"
-                          : "var(--color-cream)",
+                        m.role === "user" ? "var(--color-ink)" : "var(--color-cream)",
                       border:
                         m.role === "bot"
                           ? "1px solid rgba(245,241,232,0.08)"
                           : "none",
                       fontSize: "0.875rem",
-                      lineHeight: 1.55,
+                      lineHeight: 1.6,
                     }}
                   >
                     <p>{m.text}</p>
                     {m.links && m.links.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mt-3 pt-3" style={{ borderTop: "1px solid rgba(245,241,232,0.1)" }}>
+                      <div className="flex flex-wrap gap-x-5 gap-y-2 mt-4 pt-4" style={{ borderTop: "1px solid rgba(245,241,232,0.1)" }}>
                         {m.links.map((l, i) => (
                           <Link
                             key={i}
                             href={l.href}
                             onClick={() => setOpen(false)}
-                            className="text-[0.75rem] px-3 py-1.5 rounded-full transition-colors duration-300"
+                            className="inline-flex items-center gap-1.5 transition-colors duration-300 hover:text-cream"
                             style={{
-                              background: "rgba(201,169,110,0.12)",
                               color: "var(--color-gold)",
-                              border: "1px solid rgba(201,169,110,0.25)",
+                              fontSize: "0.78rem",
+                              textDecoration: "underline",
+                              textUnderlineOffset: "4px",
+                              textDecorationColor: "rgba(201,169,110,0.4)",
                             }}
                           >
                             {l.label}
+                            <span aria-hidden>→</span>
                           </Link>
                         ))}
                       </div>
@@ -514,7 +353,7 @@ export default function ConciergeChat() {
                   className="flex justify-start"
                 >
                   <div
-                    className="rounded-2xl px-4 py-3 flex items-center gap-1"
+                    className="rounded-2xl px-4 py-3 flex items-center gap-1.5"
                     style={{
                       background: "var(--color-carbon)",
                       border: "1px solid rgba(245,241,232,0.08)",
@@ -538,7 +377,6 @@ export default function ConciergeChat() {
               )}
             </div>
 
-            {/* Suggestions — only before first user message */}
             {messages.length === 1 && (
               <div
                 className="flex-shrink-0 px-5 py-3 overflow-x-auto"
@@ -549,7 +387,7 @@ export default function ConciergeChat() {
                     <button
                       key={i}
                       onClick={() => send(s)}
-                      className="flex-shrink-0 text-[0.72rem] px-3 py-1.5 rounded-full transition-colors duration-300 whitespace-nowrap"
+                      className="flex-shrink-0 text-[0.72rem] px-3.5 py-2 rounded-full transition-colors duration-300 whitespace-nowrap hover:bg-white/5"
                       style={{
                         background: "transparent",
                         color: "rgba(245,241,232,0.7)",
@@ -563,7 +401,6 @@ export default function ConciergeChat() {
               </div>
             )}
 
-            {/* Input */}
             <form
               onSubmit={handleSubmit}
               className="flex-shrink-0 flex items-center gap-2 px-3 py-3"
@@ -585,7 +422,7 @@ export default function ConciergeChat() {
                 type="submit"
                 disabled={!input.trim()}
                 aria-label="Send"
-                className="flex items-center justify-center rounded-full transition-opacity duration-300 disabled:opacity-30"
+                className="flex items-center justify-center rounded-full transition-opacity duration-300 disabled:opacity-30 flex-shrink-0"
                 style={{
                   width: "36px",
                   height: "36px",
