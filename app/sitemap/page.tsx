@@ -16,7 +16,6 @@ const sections = [
       { href: "/rooms/cliff-house", label: "The Cliff House" },
       { href: "/offers", label: "Offers" },
       { href: "/book", label: "Reserve" },
-      { href: "/book/thank-you", label: "Reservation Received" },
     ],
   },
   {
