@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 export default function AccordionGallery({
@@ -9,10 +9,46 @@ export default function AccordionGallery({
   items: { name: string; desc: string; image: string }[];
   light?: boolean;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
+  // Scroll-driven auto-advance — one item at a time based on scroll position
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const onScroll = () => {
+      const rect = el.getBoundingClientRect();
+      const winH = window.innerHeight;
+
+      // progress from 0 (element just entered at bottom) to 1 (element left at top)
+      const entered = winH - rect.top;
+      const total = winH + rect.height;
+      const progress = Math.max(0, Math.min(1, entered / total));
+
+      // map progress to index — 3 items: 0-0.33 → 0, 0.33-0.66 → 1, 0.66-1 → 2
+      const idx = Math.min(
+        items.length - 1,
+        Math.floor(progress * items.length)
+      );
+      setActive(idx);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [items.length]);
+
   return (
-    <div className="flex flex-col md:flex-row gap-3 md:gap-4 h-[720px] md:h-[600px]">
+    <div
+      ref={ref}
+      className="flex flex-col md:flex-row gap-3 md:gap-4 h-[720px] md:h-[600px]"
+    >
       {items.map((item, i) => (
         <motion.div
           key={i}
@@ -20,7 +56,7 @@ export default function AccordionGallery({
           onClick={() => setActive(i)}
           animate={{ flex: active === i ? 4 : 1 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="relative overflow-hidden rounded-2xl cursor-pointer"
+          className="relative overflow-hidden cursor-pointer"
           style={{
             backgroundImage: `url(${item.image})`,
             backgroundSize: "cover",
